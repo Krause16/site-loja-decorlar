@@ -16,10 +16,11 @@ const customIcon = L.divIcon({
   iconAnchor: [12, 12],
 });
 
-// --- Coordenadas: Rua Francisco Frischmann, 3294 - Portão ---
-const STORE_POSITION: [number, number] = [-25.479450, -49.292600]; 
+// --- Coordenadas REAIS: Rua Francisco Frischmann, 3294 - Portão ---
+// Agora sim: Exatamente em cima da Decorlar, perto do Shopping Palladium/Total
+const STORE_POSITION: [number, number] = [-25.473789, -49.296038];
 
-// --- Links para Rota (Waze e Maps) ---
+// --- Links para Rota ---
 const addressEncoded = "Rua+Francisco+Frischmann,+3294+-+Portão,+Curitiba+-+PR";
 const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${addressEncoded}`;
 const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
@@ -27,6 +28,13 @@ const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
 export function Location() {
   return (
     <section id="localizacao" className="py-20 bg-white">
+      {/* Hack de CSS para deixar SÓ o mapa cinza, mantendo o pino vermelho */}
+      <style>{`
+        .grayscale-tiles .leaflet-tile {
+          filter: grayscale(100%);
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Cabeçalho */}
@@ -44,7 +52,7 @@ export function Location() {
           {/* Lado Esquerdo: Informações */}
           <div className="p-8 lg:p-12 flex flex-col justify-center space-y-10 bg-white z-10 relative shadow-lg">
             
-            {/* Bloco 1: Endereço */}
+            {/* Endereço */}
             <div className="flex items-start space-x-4">
               <div className="bg-red-50 p-3 rounded-full shrink-0">
                 <MapPin className="text-red-600 w-6 h-6" />
@@ -58,7 +66,7 @@ export function Location() {
               </div>
             </div>
 
-            {/* Bloco 2: Horário */}
+            {/* Horário */}
             <div className="flex items-start space-x-4">
               <div className="bg-red-50 p-3 rounded-full shrink-0">
                 <Clock className="text-red-600 w-6 h-6" />
@@ -73,12 +81,10 @@ export function Location() {
               </div>
             </div>
 
-            {/* Bloco 3: Botões de Rota */}
+            {/* Botões de Rota */}
             <div className="pt-2">
               <h3 className="font-bold text-gray-900 text-lg mb-4">Traçar Rota</h3>
               <div className="flex flex-col sm:flex-row gap-3">
-                
-                {/* Botão Google Maps */}
                 <a 
                   href={googleMapsUrl}
                   target="_blank"
@@ -88,8 +94,6 @@ export function Location() {
                   <MapIcon size={18} />
                   Google Maps
                 </a>
-
-                {/* Botão Waze */}
                 <a 
                   href={wazeUrl}
                   target="_blank"
@@ -99,25 +103,23 @@ export function Location() {
                   <Navigation size={18} />
                   Waze
                 </a>
-
               </div>
             </div>
           </div>
 
-          {/* Lado Direito: MAPA COM REFERÊNCIAS (Tema Voyager) */}
+          {/* Lado Direito: MAPA DETALHADO (OSM) + FILTRO CINZA */}
           <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
-              zoom={16} 
+              zoom={17} // Zoom bem próximo pra ver os vizinhos
               scrollWheelZoom={false}
               className="h-full w-full"
             >
-              {/* Tema Voyager: Fundo cinza claro elegante, mas MOSTRA 
-                  nomes de ruas, prédios e pontos de referência ao redor.
-              */}
+              {/* Usando o OSM Padrão (que tem os comércios) + Classe 'grayscale-tiles' */}
               <TileLayer
-                attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
-                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                className="grayscale-tiles"
+                attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               
               <Marker position={STORE_POSITION} icon={customIcon}>
