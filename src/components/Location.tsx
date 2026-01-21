@@ -17,7 +17,6 @@ const customIcon = L.divIcon({
 });
 
 // --- Coordenadas REAIS: Rua Francisco Frischmann, 3294 - Portão ---
-// Agora sim: Exatamente em cima da Decorlar, perto do Shopping Palladium/Total
 const STORE_POSITION: [number, number] = [-25.473789, -49.296038];
 
 // --- Links para Rota ---
@@ -28,10 +27,13 @@ const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
 export function Location() {
   return (
     <section id="localizacao" className="py-20 bg-white">
-      {/* Hack de CSS para deixar SÓ o mapa cinza, mantendo o pino vermelho */}
+      {/* FILTRO MÁGICO: 
+         Deixa o mapa do Google Preto e Branco (Minimalista) 
+         mas mantém o contraste para ler os nomes das ruas.
+      */}
       <style>{`
-        .grayscale-tiles .leaflet-tile {
-          filter: grayscale(100%);
+        .google-gray-tiles .leaflet-tile {
+          filter: grayscale(100%) contrast(1.1);
         }
       `}</style>
 
@@ -107,19 +109,21 @@ export function Location() {
             </div>
           </div>
 
-          {/* Lado Direito: MAPA DETALHADO (OSM) + FILTRO CINZA */}
+          {/* Lado Direito: MAPA GOOGLE MAPS (Clean) */}
           <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
-              zoom={17} // Zoom bem próximo pra ver os vizinhos
+              zoom={17} 
               scrollWheelZoom={false}
               className="h-full w-full"
             >
-              {/* Usando o OSM Padrão (que tem os comércios) + Classe 'grayscale-tiles' */}
+              {/* Usando a camada oficial do Google Maps (Roadmap)
+                  mas aplicando nosso filtro 'google-gray-tiles' para ficar cinza e chique.
+              */}
               <TileLayer
-                className="grayscale-tiles"
-                attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                className="google-gray-tiles"
+                url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+                attribution='&copy; <a href="https://www.google.com/maps">Google Maps</a>'
               />
               
               <Marker position={STORE_POSITION} icon={customIcon}>
