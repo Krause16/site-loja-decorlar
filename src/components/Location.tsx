@@ -16,8 +16,7 @@ const customIcon = L.divIcon({
   iconAnchor: [12, 12],
 });
 
-// --- Coordenadas Atualizadas (Rua Francisco Frischmann, 3294 - Portão) ---
-// Ajustei para a latitude/longitude exata desse endereço no Portão
+// --- Coordenadas: Rua Francisco Frischmann, 3294 - Portão ---
 const STORE_POSITION: [number, number] = [-25.479450, -49.292600]; 
 
 // --- Links para Rota (Waze e Maps) ---
@@ -30,7 +29,7 @@ export function Location() {
     <section id="localizacao" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Cabeçalho Minimalista */}
+        {/* Cabeçalho */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Venha nos Visitar
@@ -66,15 +65,15 @@ export function Location() {
               </div>
               <div>
                 <h3 className="font-bold text-gray-900 text-lg">Horário</h3>
-                <p className="text-gray-600 mt-2 font-light">
+                <p className="text-gray-600 mt-2 font-light text-sm">
                   Segunda a Sexta: 09h às 18h<br />
                   Sábado: 09h às 13h<br />
-                  <span className="text-red-500 font-medium">Domingo: Fechado</span>
+                  Domingo: Fechado
                 </p>
               </div>
             </div>
 
-            {/* Bloco 3: Botões de Rota (Waze/Maps) */}
+            {/* Bloco 3: Botões de Rota */}
             <div className="pt-2">
               <h3 className="font-bold text-gray-900 text-lg mb-4">Traçar Rota</h3>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -105,19 +104,19 @@ export function Location() {
             </div>
           </div>
 
-          {/* Lado Direito: O MAPA (Versão Voyager - Mais detalhes) */}
+          {/* Lado Direito: MAPA COM REFERÊNCIAS (Tema Voyager) */}
           <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
-              zoom={16} // Dei um zoom um pouquinho maior pra ver as ruas perto
+              zoom={16} 
               scrollWheelZoom={false}
               className="h-full w-full"
             >
-              {/* MUDANÇA AQUI: Troquei 'light_all' por 'rastertiles/voyager' 
-                  Isso mantém o mapa cinza bonito, mas mostra prédios e referências.
+              {/* Tema Voyager: Fundo cinza claro elegante, mas MOSTRA 
+                  nomes de ruas, prédios e pontos de referência ao redor.
               */}
               <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>'
                 url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
               />
               
