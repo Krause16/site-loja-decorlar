@@ -22,7 +22,7 @@ export function Footer() {
             <h4 className="text-sm uppercase tracking-widest mb-6 text-gray-400 font-medium">Siga-nos</h4>
             <div className="flex gap-6">
               <a
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/decorlar_cortinas/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-red-600 transition-colors duration-300"
@@ -31,7 +31,7 @@ export function Footer() {
                 <Instagram size={24} strokeWidth={1.5} />
               </a>
               <a
-                href="https://www.tiktok.com"
+                href="https://www.tiktok.com/@decorlarcortinas"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-red-600 transition-colors duration-300"
@@ -40,7 +40,7 @@ export function Footer() {
                 <Music2 size={24} strokeWidth={1.5} />
               </a>
               <a
-                href="https://www.facebook.com"
+                href="https://www.facebook.com/profile.php?id=100066821051217"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-red-600 transition-colors duration-300"
