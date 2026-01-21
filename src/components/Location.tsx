@@ -27,10 +27,7 @@ const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
 export function Location() {
   return (
     <section id="localizacao" className="py-20 bg-white scroll-mt-32">
-      {/* FILTRO MÁGICO: 
-         Deixa o mapa do Google Preto e Branco (Minimalista) 
-         mas mantém o contraste para ler os nomes das ruas.
-      */}
+      {/* FILTRO MÁGICO: Mapa Cinza Chique */}
       <style>{`
         .google-gray-tiles .leaflet-tile {
           filter: grayscale(100%) contrast(1.1);
@@ -49,10 +46,14 @@ export function Location() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl bg-gray-50 border border-gray-100">
+        {/* CORREÇÃO MOBILE AQUI:
+            - Antes: h-[600px] (Travava a altura e esmagava o mapa)
+            - Agora: h-auto lg:h-[500px] (No mobile cresce o quanto precisar, no PC fica fixo)
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8 h-auto lg:h-[500px] rounded-2xl overflow-hidden shadow-xl bg-gray-50 border border-gray-100">
           
           {/* Lado Esquerdo: Informações */}
-          <div className="p-8 lg:p-12 flex flex-col justify-center space-y-10 bg-white z-10 relative shadow-lg">
+          <div className="p-8 lg:p-12 flex flex-col justify-center space-y-10 bg-white z-10 relative shadow-lg order-1">
             
             {/* Endereço */}
             <div className="flex items-start space-x-4">
@@ -109,21 +110,22 @@ export function Location() {
             </div>
           </div>
 
-          {/* Lado Direito: MAPA GOOGLE MAPS (Clean) */}
-          <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
+          {/* Lado Direito: MAPA
+              CORREÇÃO MOBILE AQUI:
+              - h-[400px]: Força o mapa a ter 400px de altura no celular (bem grande e visível).
+              - lg:h-full: No PC, ele preenche a altura total.
+          */}
+          <div className="lg:col-span-2 relative h-[400px] lg:h-full w-full bg-gray-200 z-0 order-2">
             <MapContainer 
               center={STORE_POSITION} 
               zoom={18} 
               scrollWheelZoom={false}
               className="h-full w-full"
             >
-              {/* Usando a camada oficial do Google Maps (Roadmap)
-                  mas aplicando nosso filtro 'google-gray-tiles' para ficar cinza e chique.
-              */}
               <TileLayer
                 className="google-gray-tiles"
                 url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-                attribution='&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+                attribution='© <a href="https://www.google.com/maps">Google Maps</a>'
               />
               
               <Marker position={STORE_POSITION} icon={customIcon}>
