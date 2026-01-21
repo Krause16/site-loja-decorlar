@@ -113,7 +113,7 @@ export function Location() {
           <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
-              zoom={17} 
+              zoom={18} 
               scrollWheelZoom={false}
               className="h-full w-full"
             >
