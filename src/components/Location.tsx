@@ -1,10 +1,10 @@
-import { MapPin, Phone, Clock, Mail } from 'lucide-react';
+import { MapPin, Phone, Clock } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css'; // Importante: Carrega o estilo do mapa
+import 'leaflet/dist/leaflet.css'; // O estilo essencial do mapa
 
 // --- Configuração do Ícone Vermelho Personalizado ---
-// Isso cria aquele ponto vermelho chique com CSS, sem precisar de imagem
+// Cria o ponto vermelho usando CSS puro, sem imagens externas.
 const customIcon = L.divIcon({
   className: 'custom-pin',
   html: `
@@ -13,13 +13,13 @@ const customIcon = L.divIcon({
       <div class="w-6 h-6 bg-red-600 rounded-full absolute top-0 left-0 animate-ping opacity-75"></div>
     </div>
   `,
-  iconSize: [24, 24], // Tamanho do ícone
-  iconAnchor: [12, 12], // O ponto exato (meio do ícone) que toca o mapa
+  iconSize: [24, 24],
+  iconAnchor: [12, 12], // Centraliza o ponto
 });
 
-// --- Coordenadas da Loja (IMPORTANTE: Troque pelos números reais) ---
-// Peguei um ponto central em Pinhais/Curitiba como exemplo.
-// Pra pegar o seu: Vai no Google Maps, clica com botão direito na loja e copia os números.
+// --- Coordenadas da Loja (IMPORTANTE: ATUALIZE ISTO!) ---
+// Use a latitude e longitude REAIS da sua loja.
+// Exemplo (Pinhais/PR): [-25.443150, -49.191300]
 const STORE_POSITION: [number, number] = [-25.473728691546263, -49.29603450674768]; 
 
 export function Location() {
@@ -86,25 +86,26 @@ export function Location() {
             </div>
           </div>
 
-          {/* Lado Direito: O MAPA INTERATIVO */}
-          <div className="lg:col-span-2 relative h-full w-full bg-gray-200">
+          {/* Lado Direito: O MAPA LIMPO */}
+          <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
               zoom={15} 
-              scrollWheelZoom={false} // Evita travar a rolagem da página
-              className="h-full w-full z-0"
+              scrollWheelZoom={false}
+              // Se quiser tirar até o zoom (+/-), descomente a linha abaixo:
+              // zoomControl={false}
+              className="h-full w-full"
             >
-              {/* Camada do Mapa (Skin: CartoDB Light - Cinza e Limpo) */}
+              {/* Camada do Mapa (Skin Cinza CartoDB) */}
               <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                attribution='© OpenStreetMap contributors © CARTO'
                 url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
               />
               
-              {/* O Marcador Vermelho */}
+              {/* O Marcador Vermelho Fixo */}
               <Marker position={STORE_POSITION} icon={customIcon}>
                 <Popup className="font-sans">
-                  <strong className="text-red-600 text-lg">Decor.Lar</strong><br />
-                  Seu estilo mora aqui.
+                  <strong className="text-red-600">Decor.Lar</strong>
                 </Popup>
               </Marker>
             </MapContainer>
