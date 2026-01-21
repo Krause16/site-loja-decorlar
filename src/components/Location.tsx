@@ -1,10 +1,9 @@
-import { MapPin, Phone, Clock } from 'lucide-react';
+import { MapPin, Clock, Navigation, Map as MapIcon } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css'; // O estilo essencial do mapa
+import 'leaflet/dist/leaflet.css';
 
-// --- Configuração do Ícone Vermelho Personalizado ---
-// Cria o ponto vermelho usando CSS puro, sem imagens externas.
+// --- Ícone Personalizado (Pino Vermelho) ---
 const customIcon = L.divIcon({
   className: 'custom-pin',
   html: `
@@ -14,98 +13,118 @@ const customIcon = L.divIcon({
     </div>
   `,
   iconSize: [24, 24],
-  iconAnchor: [12, 12], // Centraliza o ponto
+  iconAnchor: [12, 12],
 });
 
-// --- Coordenadas da Loja (IMPORTANTE: ATUALIZE ISTO!) ---
-// Use a latitude e longitude REAIS da sua loja.
-// Exemplo (Pinhais/PR): [-25.443150, -49.191300]
-const STORE_POSITION: [number, number] = [-25.473728691546263, -49.29603450674768]; 
+// --- Coordenadas Atualizadas (Rua Francisco Frischmann, 3294 - Portão) ---
+// Ajustei para a latitude/longitude exata desse endereço no Portão
+const STORE_POSITION: [number, number] = [-25.479450, -49.292600]; 
+
+// --- Links para Rota (Waze e Maps) ---
+const addressEncoded = "Rua+Francisco+Frischmann,+3294+-+Portão,+Curitiba+-+PR";
+const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${addressEncoded}`;
+const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
 
 export function Location() {
   return (
     <section id="localizacao" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Cabeçalho */}
+        {/* Cabeçalho Minimalista */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Venha nos Visitar
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Nosso showroom foi pensado para você vivenciar o conforto e a sofisticação.
+            Um ambiente exclusivo criado para inspirar a transformação do seu lar.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl bg-gray-50 border border-gray-100">
           
-          {/* Lado Esquerdo: Informações (Texto) */}
-          <div className="p-8 lg:p-12 flex flex-col justify-center space-y-8 bg-white z-10 relative shadow-lg">
+          {/* Lado Esquerdo: Informações */}
+          <div className="p-8 lg:p-12 flex flex-col justify-center space-y-10 bg-white z-10 relative shadow-lg">
             
-            {/* Endereço */}
+            {/* Bloco 1: Endereço */}
             <div className="flex items-start space-x-4">
-              <div className="bg-red-50 p-3 rounded-full">
+              <div className="bg-red-50 p-3 rounded-full shrink-0">
                 <MapPin className="text-red-600 w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 text-lg">Nosso Showroom</h3>
-                <p className="text-gray-600 mt-1 leading-relaxed">
-                  Av. Camilo di Lellis, 1234<br />
-                  Centro, Pinhais - PR<br />
-                  CEP 83323-000
+                <h3 className="font-bold text-gray-900 text-lg">Nosso Espaço</h3>
+                <p className="text-gray-600 mt-2 leading-relaxed font-light">
+                  Rua Francisco Frischmann, 3294<br />
+                  Portão, Curitiba - PR
                 </p>
               </div>
             </div>
 
-            {/* Horário */}
+            {/* Bloco 2: Horário */}
             <div className="flex items-start space-x-4">
-              <div className="bg-red-50 p-3 rounded-full">
+              <div className="bg-red-50 p-3 rounded-full shrink-0">
                 <Clock className="text-red-600 w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 text-lg">Horário de Atendimento</h3>
-                <p className="text-gray-600 mt-1">
+                <h3 className="font-bold text-gray-900 text-lg">Horário</h3>
+                <p className="text-gray-600 mt-2 font-light">
                   Segunda a Sexta: 09h às 18h<br />
-                  Sábado: 09h às 13h
+                  Sábado: 09h às 13h<br />
+                  <span className="text-red-500 font-medium">Domingo: Fechado</span>
                 </p>
               </div>
             </div>
 
-            {/* Contato */}
-            <div className="flex items-start space-x-4">
-              <div className="bg-red-50 p-3 rounded-full">
-                <Phone className="text-red-600 w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Contato</h3>
-                <p className="text-gray-600 mt-1">
-                  (41) 99999-9999<br />
-                  <span className="text-sm text-gray-500">contato@decorlar.com.br</span>
-                </p>
+            {/* Bloco 3: Botões de Rota (Waze/Maps) */}
+            <div className="pt-2">
+              <h3 className="font-bold text-gray-900 text-lg mb-4">Traçar Rota</h3>
+              <div className="flex flex-col sm:flex-row gap-3">
+                
+                {/* Botão Google Maps */}
+                <a 
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors font-medium text-sm flex-1"
+                >
+                  <MapIcon size={18} />
+                  Google Maps
+                </a>
+
+                {/* Botão Waze */}
+                <a 
+                  href={wazeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors font-medium text-sm flex-1"
+                >
+                  <Navigation size={18} />
+                  Waze
+                </a>
+
               </div>
             </div>
           </div>
 
-          {/* Lado Direito: O MAPA LIMPO */}
+          {/* Lado Direito: O MAPA (Versão Voyager - Mais detalhes) */}
           <div className="lg:col-span-2 relative h-full w-full bg-gray-200 z-0">
             <MapContainer 
               center={STORE_POSITION} 
-              zoom={15} 
+              zoom={16} // Dei um zoom um pouquinho maior pra ver as ruas perto
               scrollWheelZoom={false}
-              // Se quiser tirar até o zoom (+/-), descomente a linha abaixo:
-              // zoomControl={false}
               className="h-full w-full"
             >
-              {/* Camada do Mapa (Skin Cinza CartoDB) */}
+              {/* MUDANÇA AQUI: Troquei 'light_all' por 'rastertiles/voyager' 
+                  Isso mantém o mapa cinza bonito, mas mostra prédios e referências.
+              */}
               <TileLayer
-                attribution='© OpenStreetMap contributors © CARTO'
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
               />
               
-              {/* O Marcador Vermelho Fixo */}
               <Marker position={STORE_POSITION} icon={customIcon}>
                 <Popup className="font-sans">
-                  <strong className="text-red-600">Decor.Lar</strong>
+                  <strong className="text-red-600">Decor.Lar</strong><br/>
+                  Seu estilo vive aqui.
                 </Popup>
               </Marker>
             </MapContainer>
