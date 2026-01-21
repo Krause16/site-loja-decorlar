@@ -15,14 +15,14 @@ export function Contact() {
       whatsapp: "5541992137368",
     },
     {
-      nome: "Gisele Fattori",
+      nome: "Jessica Soares",
       foto: "https://i.imgur.com/q44y0cF.jpeg",
-      whatsapp: "5541998001271",
+      whatsapp: "5541996599302",
     },
     {
-      nome: "Jessica Soares",
+      nome: "Gisele Fattori",
       foto: "https://i.imgur.com/05wP9ue.jpeg",
-      whatsapp: "5541996599302",
+      whatsapp: "5541998001271",
     },
     {
       nome: "Edina Ferreira",
