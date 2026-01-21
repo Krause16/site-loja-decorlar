@@ -42,7 +42,7 @@ export function Gallery() {
   return (
     // AQUI ESTAVA O PROBLEMA: Faltava o id="galeria"
     // Agora o botão lá de cima vai encontrar essa seção!
-    <main ref={containerRef} id="galeria" className="bg-black relative">
+    <main ref={containerRef} id="galeria" className="bg-black relative scroll-mt-32">
       {SLIDES.map((slide, i) => {
         const targetScale = 1 - ((SLIDES.length - i) * 0.05); 
         

@@ -26,7 +26,7 @@ const wazeUrl = `https://waze.com/ul?q=${addressEncoded}&navigate=yes`;
 
 export function Location() {
   return (
-    <section id="localizacao" className="py-20 bg-white">
+    <section id="localizacao" className="py-20 bg-white scroll-mt-32">
       {/* FILTRO MÁGICO: 
          Deixa o mapa do Google Preto e Branco (Minimalista) 
          mas mantém o contraste para ler os nomes das ruas.

@@ -32,7 +32,7 @@ export function Contact() {
   ];
 
   return (
-    <section id="contato" className="py-28 bg-white">
+    <section id="contato" className="py-28 bg-white scroll-mt-32">
       <div className="max-w-6xl mx-auto px-6">
         {/* TÍTULO */}
         <div className="text-center mb-16">
