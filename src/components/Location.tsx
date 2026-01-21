@@ -1,166 +1,115 @@
-import { MapPin, ExternalLink, Navigation } from "lucide-react";
+import { MapPin, Phone, Clock, Mail } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css'; // Importante: Carrega o estilo do mapa
+
+// --- Configuração do Ícone Vermelho Personalizado ---
+// Isso cria aquele ponto vermelho chique com CSS, sem precisar de imagem
+const customIcon = L.divIcon({
+  className: 'custom-pin',
+  html: `
+    <div class="relative">
+      <div class="w-6 h-6 bg-red-600 rounded-full border-4 border-white shadow-lg relative z-10"></div>
+      <div class="w-6 h-6 bg-red-600 rounded-full absolute top-0 left-0 animate-ping opacity-75"></div>
+    </div>
+  `,
+  iconSize: [24, 24], // Tamanho do ícone
+  iconAnchor: [12, 12], // O ponto exato (meio do ícone) que toca o mapa
+});
+
+// --- Coordenadas da Loja (IMPORTANTE: Troque pelos números reais) ---
+// Peguei um ponto central em Pinhais/Curitiba como exemplo.
+// Pra pegar o seu: Vai no Google Maps, clica com botão direito na loja e copia os números.
+const STORE_POSITION: [number, number] = [-25.473728691546263, -49.29603450674768]; 
 
 export function Location() {
-  const address = "Rua Francisco Frischman, 3294 - Portão, Curitiba - PR";
-
-  const mapsUrl =
-    "https://www.google.com/maps/search/?api=1&query=Rua+Francisco+Frischman+3294+Portão+Curitiba+PR";
-
-  // Waze (sem API)
-  const wazeUrl =
-    "https://waze.com/ul?q=Rua%20Francisco%20Frischman%2C%203294%20-%20Port%C3%A3o%2C%20Curitiba%20-%20PR&navigate=yes";
-
-  // Embed simples (sem API). O mapa vai ficar cinza via CSS filter.
-  // O "pin vermelho" será um overlay do seu site.
-  const mapsEmbedUrl =
-    "https://www.google.com/maps?q=Rua+Francisco+Frischman+3294+Portão+Curitiba+PR&z=16&output=embed";
-
   return (
-    <section id="localizacao" className="py-24 bg-white">
+    <section id="localizacao" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* HEADER */}
+        
+        {/* Cabeçalho */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl mb-4 text-black">Localização</h2>
-          <p className="text-xl text-gray-700">
-            Visite nossa loja física e conheça todas as novidades
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Venha nos Visitar
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+            Nosso showroom foi pensado para você vivenciar o conforto e a sofisticação.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-          {/* CARD DE INFORMAÇÕES */}
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <MapPin className="text-white" size={24} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl bg-gray-50 border border-gray-100">
+          
+          {/* Lado Esquerdo: Informações (Texto) */}
+          <div className="p-8 lg:p-12 flex flex-col justify-center space-y-8 bg-white z-10 relative shadow-lg">
+            
+            {/* Endereço */}
+            <div className="flex items-start space-x-4">
+              <div className="bg-red-50 p-3 rounded-full">
+                <MapPin className="text-red-600 w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-2xl mb-2 text-black">Nosso Endereço</h3>
-                <p className="text-gray-700 text-lg">{address}</p>
+                <h3 className="font-bold text-gray-900 text-lg">Nosso Showroom</h3>
+                <p className="text-gray-600 mt-1 leading-relaxed">
+                  Av. Camilo di Lellis, 1234<br />
+                  Centro, Pinhais - PR<br />
+                  CEP 83323-000
+                </p>
               </div>
             </div>
 
-            {/* Botões: Google Maps + Waze */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-black text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors"
-              >
-                <ExternalLink size={20} />
-                Abrir no Google Maps
-              </a>
-
-              <a
-                href={wazeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-lg border border-gray-300 hover:border-red-600 hover:text-red-600 transition-colors"
-              >
-                <Navigation size={20} />
-                Abrir no Waze
-              </a>
+            {/* Horário */}
+            <div className="flex items-start space-x-4">
+              <div className="bg-red-50 p-3 rounded-full">
+                <Clock className="text-red-600 w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 text-lg">Horário de Atendimento</h3>
+                <p className="text-gray-600 mt-1">
+                  Segunda a Sexta: 09h às 18h<br />
+                  Sábado: 09h às 13h
+                </p>
+              </div>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <h4 className="text-xl mb-4 text-black">Horário de Funcionamento</h4>
-              <div className="space-y-2 text-gray-700">
-                <p>
-                  <strong>Segunda a Sexta:</strong> 8h às 18h30
-                </p>
-                <p>
-                  <strong>Sábado:</strong> 9h às 13h
-                </p>
-                <p>
-                  <strong>Domingo:</strong> Fechado
+            {/* Contato */}
+            <div className="flex items-start space-x-4">
+              <div className="bg-red-50 p-3 rounded-full">
+                <Phone className="text-red-600 w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 text-lg">Contato</h3>
+                <p className="text-gray-600 mt-1">
+                  (41) 99999-9999<br />
+                  <span className="text-sm text-gray-500">contato@decorlar.com.br</span>
                 </p>
               </div>
             </div>
           </div>
 
-          {/* MAPA PREMIUM (sem API, sofisticado) */}
-          <div className="relative rounded-xl overflow-hidden shadow-lg h-[520px] border border-gray-200">
-            {/* Overlay gradiente + vinheta (deixa com cara premium) */}
-            <div className="pointer-events-none absolute inset-0 z-[2]">
-              <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/0 to-white/10" />
-              <div className="absolute inset-0 [box-shadow:inset_0_0_0_1px_rgba(0,0,0,0.04)]" />
-              <div className="absolute inset-0 [box-shadow:inset_0_-80px_120px_rgba(0,0,0,0.20)]" />
-            </div>
-
-            {/* CTA: Google + Waze */}
-            <div className="absolute top-5 left-5 z-[5] flex items-center gap-3">
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-black/90 backdrop-blur text-white px-5 py-3 rounded-lg shadow-lg hover:bg-red-600 transition"
-              >
-                <Navigation size={18} />
-                <span className="text-sm font-semibold">Como chegar</span>
-              </a>
-
-              <a
-                href={wazeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-white/85 backdrop-blur text-black px-5 py-3 rounded-lg shadow-lg border border-black/5 hover:border-red-600 hover:text-red-600 transition"
-                aria-label="Como chegar pelo Waze"
-                title="Como chegar pelo Waze"
-              >
-                <Navigation size={18} />
-                <span className="text-sm font-semibold">Waze</span>
-              </a>
-            </div>
-
-            {/* Badge do endereço (premium) */}
-            <div className="absolute bottom-5 left-5 z-[5] max-w-[85%]">
-              <div className="flex items-center gap-3 bg-white/85 backdrop-blur px-4 py-3 rounded-lg shadow-lg border border-black/5">
-                <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <MapPin className="text-white" size={18} />
-                </div>
-                <div className="leading-tight">
-                  <p className="text-xs text-gray-500">Decor Lar</p>
-                  <p className="text-sm text-gray-900 font-medium">{address}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* PIN VERMELHO (overlay no centro) */}
-            <div className="pointer-events-none absolute inset-0 z-[4] flex items-center justify-center">
-              <div className="relative -translate-y-6">
-                {/* Glow */}
-                <div className="absolute inset-0 blur-xl opacity-40 bg-red-600 rounded-full scale-125" />
-                {/* Pin */}
-                <div className="relative w-12 h-12">
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-red-600 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.25)]" />
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full" />
-                  {/* Pontinha */}
-                  <div className="absolute left-1/2 top-[75%] -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[18px] border-t-red-600 drop-shadow-[0_10px_18px_rgba(0,0,0,0.18)]" />
-                </div>
-              </div>
-            </div>
-
-            {/* GOOGLE MAPS (iframe) */}
-            <iframe
-              src={mapsEmbedUrl}
-              width="100%"
-              height="100%"
-              style={{
-                border: 0,
-                filter: "grayscale(100%) contrast(1.15) brightness(1.02)",
-              }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Mapa da Loja"
-            />
-
-            {/* Hint de interação */}
-            <div className="pointer-events-none absolute top-5 right-5 z-[5] hidden sm:block">
-              <div className="bg-white/70 backdrop-blur px-3 py-2 rounded-lg border border-black/5 text-xs text-gray-700 shadow">
-                Arraste para explorar
-              </div>
-            </div>
+          {/* Lado Direito: O MAPA INTERATIVO */}
+          <div className="lg:col-span-2 relative h-full w-full bg-gray-200">
+            <MapContainer 
+              center={STORE_POSITION} 
+              zoom={15} 
+              scrollWheelZoom={false} // Evita travar a rolagem da página
+              className="h-full w-full z-0"
+            >
+              {/* Camada do Mapa (Skin: CartoDB Light - Cinza e Limpo) */}
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+              />
+              
+              {/* O Marcador Vermelho */}
+              <Marker position={STORE_POSITION} icon={customIcon}>
+                <Popup className="font-sans">
+                  <strong className="text-red-600 text-lg">Decor.Lar</strong><br />
+                  Seu estilo mora aqui.
+                </Popup>
+              </Marker>
+            </MapContainer>
           </div>
+
         </div>
       </div>
     </section>
