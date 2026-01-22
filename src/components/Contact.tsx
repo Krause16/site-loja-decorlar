@@ -1,12 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-/**
- * CONTATO – CONSULTORES (ALTO PADRÃO / LUXO)
- * - Fotos coloridas com tratamento de imagem premium
- * - Botão 'CONSULTORIA' estilo outline (borda fina)
- * - Interação minimalista preto/branco/vermelho
- */
 export function Contact() {
   const consultores = [
     {
@@ -32,61 +26,64 @@ export function Contact() {
   ];
 
   return (
-    <section id="contato" className="py-28 bg-white scroll-mt-32">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="contato" className="py-20 bg-white scroll-mt-32">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* TÍTULO */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-black uppercase">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl md:text-4xl font-light tracking-wide text-black uppercase">
             Atendimento Exclusivo
           </h2>
-          <div className="mt-6 mx-auto h-[1px] w-24 bg-gray-200" />
+          {/* Linha decorativa sutil */}
+          <div className="mt-4 mx-auto h-[1px] w-16 bg-red-600/30" />
         </div>
 
-        {/* GRID DE CONSULTORES */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+        {/* GRID DE CONSULTORES 
+            Mudança Principal: grid-cols-2 (Mobile) -> grid-cols-4 (PC)
+        */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-8">
           {consultores.map((consultor, index) => (
             <div key={index} className="group cursor-pointer flex flex-col items-center">
               
               {/* CONTAINER DA FOTO */}
-              <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 border-b-4 border-transparent transition-colors duration-300 group-hover:border-red-600">
+              <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 border-b-[3px] border-transparent transition-colors duration-500 group-hover:border-red-600">
                 <ImageWithFallback
                   src={consultor.foto}
                   alt={consultor.nome}
                   className="
                     w-full h-full object-cover
-                    brightness-[0.95] contrast-[1.05]
-                    transition-all duration-700 ease-out
+                    brightness-[0.98] contrast-[1.02]
+                    transition-transform duration-700 ease-out
                     group-hover:scale-105
-                    group-hover:brightness-105
                   "
                 />
                 
-                {/* Efeito sutil de vinheta para destacar o rosto */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Overlay ultra sutil pra dar profundidade */}
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
               {/* INFORMAÇÕES */}
-              <div className="pt-6 w-full text-center">
-                <h3 className="text-lg font-medium tracking-wide text-black group-hover:text-red-600 transition-colors duration-300">
+              <div className="pt-4 w-full text-center">
+                <h3 className="text-sm md:text-lg font-medium tracking-wide text-gray-900 group-hover:text-red-700 transition-colors duration-300">
                   {consultor.nome}
                 </h3>
 
-                {/* BOTÃO 'CONSULTORIA' - ESTILO GRIFE */}
+                {/* BOTÃO 'CONSULTORIA' - Ajustado para caber no mobile */}
                 <a
                   href={`https://wa.me/${consultor.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="
-                    mt-5 inline-flex items-center gap-3
-                    px-6 py-3
-                    text-[10px] font-bold tracking-[0.25em] uppercase
-                    text-black border border-black/10
+                    mt-3 inline-flex items-center justify-center gap-2
+                    px-3 py-2 md:px-6 md:py-3
+                    w-full md:w-auto
+                    text-[9px] md:text-[10px] font-bold tracking-[0.15em] md:tracking-[0.25em] uppercase
+                    text-gray-500 border border-gray-200
                     hover:bg-black hover:text-white hover:border-black
                     transition-all duration-300 ease-in-out
                   "
                 >
-                  <MessageCircle size={14} strokeWidth={1.5} />
-                  Consultoria
+                  <MessageCircle size={12} className="md:w-[14px] md:h-[14px]" strokeWidth={1.5} />
+                  <span>Consultoria</span>
                 </a>
               </div>
             </div>
